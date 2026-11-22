@@ -1,0 +1,245 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#090914">
+<title>BRXZZ ESPORTS</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+ background:#090914;color:white;
+ font-family:Arial,sans-serif;
+ min-height:100vh;
+}
+header{
+ padding:20px;background:#151528;
+ display:flex;justify-content:space-between;
+ align-items:center;border-bottom:1px solid #713bff;
+}
+.logo{color:#a879ff;font-size:23px;font-weight:900}
+button{
+ background:linear-gradient(120deg,#792cff,#bc35ff);
+ color:white;border:0;border-radius:10px;
+ padding:12px 16px;font-weight:bold;
+ cursor:pointer;
+}
+input{
+ width:100%;padding:14px;margin:10px 0;
+ border:1px solid #6339a5;border-radius:9px;
+ background:#17172a;color:white;
+}
+main{padding:18px;max-width:650px;margin:auto}
+.card{
+ background:#17172a;border:1px solid #393052;
+ border-radius:15px;padding:18px;margin:15px 0;
+}
+h2{color:#c49bff;margin-bottom:12px}
+h3{margin-bottom:10px}
+.small{color:#aaa;font-size:13px}
+.hidden{display:none!important}
+.menu{
+ display:grid;grid-template-columns:1fr 1fr;gap:12px;
+ margin:15px 0;
+}
+.menu button{min-height:75px;font-size:15px}
+.message{
+ background:#29233c;padding:10px;
+ border-radius:10px;margin:8px 0;
+ overflow-wrap:anywhere;
+}
+footer{
+ position:sticky;bottom:0;background:#151528;
+ display:flex;justify-content:space-around;
+ padding:14px 3px;border-top:1px solid #6339a5;
+}
+footer button{padding:10px;font-size:12px}
+#chatBox{height:240px;overflow-y:auto}
+</style>
+</head>
+
+<body>
+
+<header>
+ <div class="logo">⚡ BRXZZ ESPORTS</div>
+ <div>🔔 <span id="notice">0</span></div>
+</header>
+
+<main>
+
+<!-- LOGIN -->
+<section id="login">
+ <div class="card">
+  <h2>WELCOME PLAYER 🎮</h2>
+  <p class="small">Enter the BRXZZ ESPORTS battlefield.</p>
+  <input id="username" placeholder="Enter your player name">
+  <input id="ffid" placeholder="Free Fire UID (optional)">
+  <button onclick="login()">ENTER GAME</button>
+ </div>
+</section>
+
+<!-- HOME -->
+<section id="home" class="hidden">
+ <div class="card">
+  <h2>WELCOME, <span id="player"></span> 🔥</h2>
+  <p class="small">BRXZZ ESPORTS Gaming Community</p>
+  <p style="margin-top:12px">Status: 🟢 Online</p>
+ </div>
+
+ <h2>GAMING CENTER</h2>
+ <div class="menu">
+  <button onclick="show('chat')">💬 Squad Chat</button>
+  <button onclick="show('rooms')">🎮 Gaming Rooms</button>
+  <button onclick="show('calls')">📞 Audio Calls</button>
+  <button onclick="show('notifications')">🔔 Notifications</button>
+  <button onclick="show('friends')">👥 Friends</button>
+  <button onclick="show('profile')">👤 My Profile</button>
+ </div>
+
+ <div class="card">
+  <h3>🔥 FREE FIRE SQUAD</h3>
+  <p class="small">Connect with your teammates and prepare for battle!</p>
+ </div>
+</section>
+
+<!-- CHAT -->
+<section id="chat" class="hidden">
+ <div class="card">
+  <h2>💬 SQUAD CHAT</h2>
+  <div id="chatBox"></div>
+  <input id="chatInput" placeholder="Type a message...">
+  <button onclick="sendMessage()">SEND ➤</button>
+ </div>
+ <button onclick="show('home')">← BACK</button>
+</section>
+
+<!-- ROOMS -->
+<section id="rooms" class="hidden">
+ <div class="card">
+  <h2>🎮 GAMING ROOMS</h2>
+  <p>Join your squad room.</p>
+  <button onclick="joinRoom()">JOIN SQUAD</button>
+  <p id="roomStatus" class="small" style="margin-top:15px"></p>
+ </div>
+ <button onclick="show('home')">← BACK</button>
+</section>
+
+<!-- CALLS -->
+<section id="calls" class="hidden">
+ <div class="card">
+  <h2>📞 AUDIO CALLS</h2>
+  <p class="small">Voice calling will be activated with WebRTC in the next stage.</p>
+  <button onclick="alert('Audio calling will be connected in Stage 3.')">START AUDIO CALL</button>
+  <p style="margin-top:15px">🎤 Voice chat coming soon!</p>
+ </div>
+ <button onclick="show('home')">← BACK</button>
+</section>
+
+<!-- NOTIFICATIONS -->
+<section id="notifications" class="hidden">
+ <div class="card">
+  <h2>🔔 NOTIFICATIONS</h2>
+  <div id="notificationList">
+   <p class="small">Welcome to BRXZZ ESPORTS!</p>
+  </div>
+ </div>
+ <button onclick="show('home')">← BACK</button>
+</section>
+
+<!-- FRIENDS -->
+<section id="friends" class="hidden">
+ <div class="card">
+  <h2>👥 FRIENDS</h2>
+  <p class="small">Your squad friends will appear here after account integration.</p>
+ </div>
+ <button onclick="show('home')">← BACK</button>
+</section>
+
+<!-- PROFILE -->
+<section id="profile" class="hidden">
+ <div class="card">
+  <h2>👤 PLAYER PROFILE</h2>
+  <p>Player: <span id="profileName"></span></p>
+  <p style="margin-top:10px">Free Fire UID: <span id="profileId"></span></p>
+  <button style="margin-top:20px" onclick="logout()">LOG OUT</button>
+ </div>
+ <button onclick="show('home')">← BACK</button>
+</section>
+
+</main>
+
+<footer id="footer" class="hidden">
+ <button onclick="show('home')">🏠 Home</button>
+ <button onclick="show('chat')">💬 Chat</button>
+ <button onclick="show('rooms')">🎮 Rooms</button>
+ <button onclick="show('calls')">📞 Calls</button>
+</footer>
+
+<script>
+const pages=['login','home','chat','rooms','calls',
+'notifications','friends','profile'];
+
+function show(page){
+ pages.forEach(p=>{
+  document.getElementById(p).classList.toggle('hidden',p!==page);
+ });
+ window.scrollTo(0,0);
+}
+
+function login(){
+ let name=document.getElementById('username').value.trim();
+ let id=document.getElementById('ffid').value.trim();
+ if(!name){
+  alert('Please enter your player name!');
+  return;
+ }
+ localStorage.setItem('brxName',name);
+ localStorage.setItem('brxId',id);
+ loadPlayer();
+}
+
+function loadPlayer(){
+ let name=localStorage.getItem('brxName');
+ if(!name)return;
+ document.getElementById('player').textContent=name;
+ document.getElementById('profileName').textContent=name;
+ document.getElementById('profileId').textContent=
+ localStorage.getItem('brxId')||'Not added';
+ document.getElementById('footer').classList.remove('hidden');
+ show('home');
+}
+
+function logout(){
+ localStorage.removeItem('brxName');
+ localStorage.removeItem('brxId');
+ document.getElementById('footer').classList.add('hidden');
+ show('login');
+}
+
+function sendMessage(){
+ let input=document.getElementById('chatInput');
+ let message=input.value.trim();
+ if(!message)return;
+ let box=document.getElementById('chatBox');
+ let div=document.createElement('div');
+ div.className='message';
+ div.textContent=localStorage.getItem('brxName')+': '+message;
+ box.appendChild(div);
+ box.scrollTop=box.scrollHeight;
+ input.value='';
+}
+
+function joinRoom(){
+ document.getElementById('roomStatus').textContent=
+ 'You joined the demo squad room! Online multiplayer will be connected using Firebase.';
+}
+
+if(localStorage.getItem('brxName')){
+ loadPlayer();
+}
+</script>
+
+</body>
+</html>
